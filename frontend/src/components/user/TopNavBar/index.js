@@ -1,13 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Icons } from "../../../icons";
 
 function TopNavBar() {
   return (
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100 border-bottom px-3"
+      class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100 border-bottom px-5"
       style={{ zIndex: 999 }}
     >
-      <div class="navbar-brand" style={{fontSize:"30px"}}>
-        Navbar
+      <div class="navbar-brand" style={{ fontSize: "30px" }}>
+        CRUD
       </div>
       <button
         class="navbar-toggler"
@@ -23,58 +25,28 @@ function TopNavBar() {
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a class="nav-link" href="#">
-              Home <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Link
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-              <a class="dropdown-item" href="#">
-                Another action
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                Something else here
-              </a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">
-              Disabled
+              Contact
             </a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+        <div class="form-inline my-2 my-lg-0 gap-2">
+          <Link
+            className="text-decoration-none text-black"
+            to="https://github.com/sangamprashant"
+            target="_blank"
+          >
+            {Icons.GitHubIcon}
+          </Link>
+          <Link
+            className="text-decoration-none text-black"
+            to="https://github.com/sangamprashant"
+            target="_blank"
+          >
+            {Icons.LinkedInIcon}
+          </Link>
+        </div>
       </div>
     </nav>
   );

@@ -1,6 +1,18 @@
 import React from "react";
 import "./Login.css";
 import { AuthContext } from "../../AppProvider";
+import { Modal, message } from "antd";
+import axios from "axios"
+import { BASE_API } from "../../env";
+
+const config = {
+  title: "Error!",
+  content: (
+    <>
+      <p>All fields are required</p>
+    </>
+  ),
+};
 
 function Login() {
   const { user, setUser, token, setToken, isLogin, setIsLogin } =
@@ -10,8 +22,25 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLogin(true);
-    sessionStorage.setItem("token", "sds")
+    if (!email.trim() || !password.trim()) {
+      return Modal.error(config);
+    }
+    try {
+      const response = await axios.post(`${BASE_API}/api/admin/login`,{
+        password:password.trim(),
+        email:email.trim()
+      })
+      if(response.data.success){
+        message.success(response.data.message||'Login successful')
+        sessionStorage.setItem("token", response.data.token);
+        setToken(response.data.token)
+        setIsLogin(true);
+      }
+    } catch (error) {
+      console.log("failed to login".error);
+      message.error(error.response.data.message || "Something went wrong");
+    }
+
   };
 
   return (
@@ -29,13 +58,18 @@ function Login() {
             </p>
           </div>
           <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light text-black" onSubmit={handleLogin}>
+            <form
+              class="p-4 p-md-5 border rounded-3 bg-light text-black"
+              onSubmit={handleLogin}
+            >
               <div class="form-floating mb-3">
                 <input
                   type="email"
                   class="form-control"
                   id="floatingInput"
                   placeholder="name@example.com"
+                  value={email}
+                  onChange={(e)=>{setEmail(e.target.value)}}
                 />
                 <label for="floatingInput">Email address</label>
               </div>
@@ -45,6 +79,8 @@ function Login() {
                   class="form-control"
                   id="floatingPassword"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e)=>{setPassword(e.target.value)}}
                 />
                 <label for="floatingPassword">Password</label>
               </div>

@@ -1,7 +1,15 @@
 import React from "react";
 import "./App.css";
 import { AuthContext } from "./AppProvider";
-import { Home, Login, SideNav, TopNavBar } from "./components";
+import {
+  AddProducts,
+  AllProducts,
+  Home,
+  Login,
+  PageNotFound,
+  SideNav,
+  TopNavBar,
+} from "./components";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -19,6 +27,9 @@ function App() {
           <SideNav>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/add-product" element={<AddProducts />} />
+              <Route path="/all-product" element={<AllProducts />} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </SideNav>
         </>
