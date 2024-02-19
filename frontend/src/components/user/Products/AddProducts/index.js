@@ -1,5 +1,5 @@
 import { Modal, message } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { storage } from "../../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
@@ -15,7 +15,7 @@ const config = {
   ),
 };
 
-function AddProducts() {
+function AddProducts({ productId }) {
   const { token } = React.useContext(AuthContext);
   const [formData, setFormData] = React.useState({
     p_title: "",
@@ -26,6 +26,35 @@ function AddProducts() {
   const [selectedImage, setSelectedFile] = React.useState(null);
   const [imagePreview, setImagePreview] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_API}/api/product/product/${productId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        const product = response.data.product;
+        setFormData({
+          p_title: product.p_title,
+          p_price: product.p_price,
+          p_description: product.p_description,
+          p_images: product.p_images,
+        });
+        setImagePreview(product.p_images);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    if (productId) {
+      fetchProduct();
+    }
+  }, [productId]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -49,20 +78,25 @@ function AddProducts() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    console.log(formData);
     if (
-      !formData.p_price.trim() ||
+      isNaN(formData.p_price) ||
       !formData.p_description.trim() ||
       !formData.p_title.trim() ||
-      !selectedImage
+      !(selectedImage || formData.p_images)
     ) {
       return Modal.error(config);
     }
     setLoading(true);
     try {
-      const fileRef = ref(storage, `crud/${Date.now() + selectedImage.name}`);
-      const snapshot = await uploadBytes(fileRef, selectedImage);
-      const url = await getDownloadURL(snapshot.ref);
-      handleSave(url);
+      if (selectedImage) {
+        const fileRef = ref(storage, `crud/${Date.now() + selectedImage.name}`);
+        const snapshot = await uploadBytes(fileRef, selectedImage);
+        const url = await getDownloadURL(snapshot.ref);
+        handleSave(url);
+      } else {
+        handleSave(formData.p_images);
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
       message.error("Failed to upload image");
@@ -76,17 +110,33 @@ function AddProducts() {
         ...formData,
         p_images: path,
       };
-      const response = await axios.post(
-        `${BASE_API}/api/product/create`,
-        reqbody,
-        {
+
+      let response;
+
+      if (productId) {
+        response = await axios.put(
+          `${BASE_API}/api/product/update/${productId}`,
+          reqbody,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+      } else {
+        response = await axios.post(`${BASE_API}/api/product/create`, reqbody, {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
-      );
+        });
+      }
+
       if (response.data.success) {
-        message.success("Product added successfully");
+        message.success(
+          productId
+            ? "Product updated successfully"
+            : "Product added successfully"
+        );
         setFormData({
           p_title: "",
           p_price: "",
@@ -106,7 +156,7 @@ function AddProducts() {
   return (
     <div>
       <form onSubmit={handleUpload}>
-        <h3>Add a product</h3>
+        <h3>{productId ? "Edit product" : "Add a product"}</h3>
         <div className="row">
           <div className="col-md-6">
             <label>Product title</label>
@@ -164,7 +214,11 @@ function AddProducts() {
         </div>
         <div className="d-flex justify-content-end">
           <button className="btn btn-primary" disabled={loading}>
-            {loading ? "Please wait.." : " Add product"}
+            {loading
+              ? "Please wait.."
+              : productId
+              ? "Update product"
+              : "Add product"}
           </button>
         </div>
       </form>

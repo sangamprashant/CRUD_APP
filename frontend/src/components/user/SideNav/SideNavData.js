@@ -21,7 +21,7 @@ const SideNavItems = [
       },
       {
         label: "Add product",
-        icon: Icons.InventoryIcon,
+        icon: Icons.AddBoxIcon,
         path: "/add-product",
       },
     ],

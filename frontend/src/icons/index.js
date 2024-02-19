@@ -4,6 +4,9 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 
 const Icons = {
   HomeIcon: <HomeIcon />,
@@ -12,6 +15,9 @@ const Icons = {
   ContactsIcon: <ContactsIcon />,
   LinkedInIcon: <LinkedInIcon />,
   NotListedLocationIcon: <NotListedLocationIcon />,
+  LogoutIcon: <LogoutIcon />,
+  AddBoxIcon: <AddBoxIcon />,
+  DiamondOutlinedIcon: <DiamondOutlinedIcon />,
 };
 
 export { Icons };

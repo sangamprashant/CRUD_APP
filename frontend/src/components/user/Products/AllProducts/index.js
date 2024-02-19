@@ -71,7 +71,7 @@ function AllProducts() {
           >
             <Button danger>Delete</Button>
           </Popconfirm>
-          <Link to={`/products/${_id}`} className="btn btn-success">
+          <Link to={`/product/${_id}`} className="btn btn-success">
             View
           </Link>
         </div>
@@ -95,10 +95,10 @@ function AllProducts() {
   };
 
   return (
-    <div>
+    <>
       <h1>All Products</h1>
       <Table dataSource={products} columns={columns} />
-    </div>
+    </>
   );
 }
 

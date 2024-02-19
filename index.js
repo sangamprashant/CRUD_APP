@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
 
 app.use("/api/admin",require("./route/user") );
 app.use("/api/product",require("./route/product") );
+app.use("/api/send",require("./route/email") );
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
@@ -29,10 +30,10 @@ mongoose.connection.on("error", (err) => {
 });
 
 // Serve the frontend
-app.use(express.static(path.join(__dirname, "billing-system/build")));
+app.use(express.static(path.join(__dirname, "frontend/build")));
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "billing-system/build/index.html"),
+    path.join(__dirname, "frontend/index.html"),
     function (err) {
       if (err) {
         res.status(500).send(err);

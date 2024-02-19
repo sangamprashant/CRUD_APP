@@ -26,9 +26,9 @@ function TopNavBar() {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item ">
-            <a class="nav-link" href="#">
+            <Link class="nav-link" to="/contact">
               Contact
-            </a>
+            </Link>
           </li>
         </ul>
         <div class="form-inline my-2 my-lg-0 gap-2">
@@ -41,7 +41,7 @@ function TopNavBar() {
           </Link>
           <Link
             className="text-decoration-none text-black"
-            to="https://github.com/sangamprashant"
+            to="https://www.linkedin.com/in/sangamprashantsrivastav"
             target="_blank"
           >
             {Icons.LinkedInIcon}

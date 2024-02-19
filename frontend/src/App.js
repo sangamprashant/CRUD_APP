@@ -4,9 +4,12 @@ import { AuthContext } from "./AppProvider";
 import {
   AddProducts,
   AllProducts,
+  Contact,
+  EditProduct,
   Home,
   Login,
   PageNotFound,
+  ProductOpen,
   SideNav,
   TopNavBar,
 } from "./components";
@@ -27,8 +30,11 @@ function App() {
           <SideNav>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/add-product" element={<AddProducts />} />
               <Route path="/all-product" element={<AllProducts />} />
+              <Route path="/product/:id" element={<ProductOpen />} />
+              <Route path="/update/:id" element={<EditProduct />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </SideNav>

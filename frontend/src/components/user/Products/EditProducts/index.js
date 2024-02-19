@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import { useParams } from "react-router-dom";
+import AddProducts from "../AddProducts";
 
 function EditProduct() {
-  return (
-    <div>EditProduct</div>
-  )
+  const { id } = useParams();
+  return <AddProducts productId={id} />;
 }
 
-export default EditProduct
+export default EditProduct;
