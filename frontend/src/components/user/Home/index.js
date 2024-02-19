@@ -64,7 +64,7 @@ function Home() {
         <div className="col-md-4">
           <div>
             <div className="d-flex gap-3">
-              <p>helo</p>
+              <h5>Ratings:</h5>
               <Rate allowHalf defaultValue={4.5} />
             </div>
             <Divider />
